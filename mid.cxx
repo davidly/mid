@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +34,7 @@ int main( int argc, char * argv[] )
 
         if ( '-' == c || '/' == c )
         {
-            char ca = tolower( parg[1] );
+            char ca = (char) tolower( parg[1] );
 
             if ( 'c' == ca )
             {
@@ -48,7 +50,7 @@ int main( int argc, char * argv[] )
                 else
                     usage( "colon required after c argument" );
             }
-            else if ( '?' )
+            else if ( '?' == ca )
                 usage();
             else
                 usage( "invalid argument specified" );
@@ -69,7 +71,7 @@ int main( int argc, char * argv[] )
     if ( !fp )
         usage( "can't open file" );
 
-    static char acA[1000];
+    static char acA[ 65536 ];
     long long line = 1;
 
     printf( "starting at line %llu for %llu lines\n", first, count );
@@ -81,6 +83,7 @@ int main( int argc, char * argv[] )
         if ( !pca )
         {
             printf( "out of lines in the file; looked at %llu\n", line );
+            fclose( fp );
             exit( 1 );
         }
 
